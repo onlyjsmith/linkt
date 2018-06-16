@@ -4,7 +4,7 @@
     <input type="text" v-model='add_before' @keyup.enter='do_add_before(task_first)'>
     <ol>
       <li v-for='task in tasks' :key="task">
-        {{task}} 
+        {{task}}
         <button @click='close_task(task)'>x</button>
         <button @click='do_add_after(task)'>+</button>
       </li>
@@ -24,21 +24,19 @@
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
-import { Graph, alg as Alg } from "graphlib";
+import { Graph, alg as Alg } from 'graphlib';
 
 let graph;
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
-    HelloWorld
   },
   data() {
     return {
       tasks: [],
-      add_before: "",
-      add_after: "",
+      add_before: '',
+      add_after: '',
     };
   },
   computed: {
@@ -53,7 +51,7 @@ export default {
     },
     sinks() {
       return graph.sinks();
-    }
+    },
   },
   mounted() {
     this.reset();
@@ -75,26 +73,26 @@ export default {
       // console.log(graph.nodes());
       graph.setEdge(this.add_before, task);
       // console.log(graph.edges());
-      this.add_before = "";
+      this.add_before = '';
       this.update_graph();
     },
     do_add_after(task) {
-      if (task == this.task_last) {
-        console.log(graph, "add", this.add_after, "after", task);
+      if (task === this.task_last) {
+        console.log(graph, 'add', this.add_after, 'after', task);
         graph.setNode(this.add_after);
         graph.setEdge(task, this.add_after);
       } else {
-        console.log('do it anbothewe way')
-        this.insert_task()
+        console.log('do it anbothewe way');
+        this.insert_task(task);
       }
-      this.add_after = "";
+      this.add_after = '';
       this.update_graph();
     },
-    insert_task(before_task, new_task) {
+    insert_task(before_task) {
       const pred = graph.predecessors(before_task);
       const succ = graph.successors(before_task);
       if (pred.length && succ.length) {
-        
+        console.log('pred', pred);
       }
     },
     close_task(node) {
@@ -108,7 +106,7 @@ export default {
     },
     reset() {
       graph = new Graph();
-      const tasks = ["open box", "pour cereal", "eat"];
+      const tasks = ['open box', 'pour cereal', 'eat'];
       tasks.forEach((task, index) => {
         graph.setNode(task);
         if (index > 0 && index < tasks.length) {
@@ -117,8 +115,8 @@ export default {
         }
       });
       this.update_graph();
-    }
-  }
+    },
+  },
 };
 </script>
 
